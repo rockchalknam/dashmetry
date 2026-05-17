@@ -1,3 +1,4 @@
+*.unityweb binary
 *.data.br filter=lfs diff=lfs merge=lfs -text
 *.wasm.br filter=lfs diff=lfs merge=lfs -text
 *.js.br filter=lfs diff=lfs merge=lfs -text

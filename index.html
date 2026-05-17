@@ -1,34 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashmetry</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-  </style>
-</head>
-<body>
-  <iframe
-    src="https://geometry-games.io/dashmetry"
-    allowfullscreen
-    allow="autoplay; fullscreen"
-  ></iframe>
-</body>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Dashmetry Project | Student Portal</title>
+    <style>
+      body { margin: 0; background-color: #0e0e10; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+      #unity-container { position: relative; width: 960px; height: 600px; box-shadow: 0 0 40px rgba(0,0,0,0.8); border: 1px solid #333; }
+      canvas { width: 100%; height: 100%; display: block; }
+      
+      /* Loading Screen Styles */
+      #loading-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0e0e10; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+      #progress-bar-empty { width: 250px; height: 12px; background: #333; border-radius: 6px; overflow: hidden; margin-top: 20px; }
+      #progress-bar-full { width: 0%; height: 100%; background: #00ffcc; transition: width 0.2s; }
+      .loading-text { font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
+    </style>
+  </head>
+  <body>
+
+    <div id="unity-container">
+      <canvas id="unity-canvas" tabindex="-1"></canvas>
+      
+      <div id="loading-overlay">
+        <div class="loading-text">Loading Project Files...</div>
+        <div id="progress-bar-empty">
+          <div id="progress-bar-full"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="Build/Dashmetry.loader.js"></script>
+    <script>
+      const canvas = document.querySelector("#unity-canvas");
+      const loadingOverlay = document.querySelector("#loading-overlay");
+      const progressBarFull = document.querySelector("#progress-bar-full");
+
+      createUnityInstance(canvas, {
+        dataUrl: "Build/Dashmetry.data",
+        frameworkUrl: "Build/Dashmetry.framework.js",
+        codeUrl: "Build/Dashmetry.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "1Games",
+        productName: "Dashmetry",
+        productVersion: "1.0",
+      }, (progress) => {
+        // Updates the progress bar as the 34MB file loads
+        progressBarFull.style.width = 100 * progress + "%";
+      }).then((unityInstance) => {
+        // Remove the loading screen once the game starts
+        loadingOverlay.style.display = "none";
+        // Ensure the canvas gets focus so students can play immediately
+        canvas.focus();
+      }).catch((message) => {
+        alert("Error loading Dashmetry: " + message);
+      });
+    </script>
+  </body>
 </html>

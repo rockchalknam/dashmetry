@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Dashmetry Project | Student Portal</title>
+    <title>Dashmetry | Geometry Lite Project</title>
     <style>
       body { margin: 0; background-color: #0e0e10; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
       #unity-container { position: relative; width: 960px; height: 600px; box-shadow: 0 0 40px rgba(0,0,0,0.8); }
@@ -18,7 +18,7 @@
     <div id="unity-container">
       <canvas id="unity-canvas" tabindex="-1"></canvas>
       <div id="loading-overlay">
-        <div style="letter-spacing: 2px;">LOADING DASHMETRY...</div>
+        <div style="letter-spacing: 2px;">LOADING GEOMETRY LITE...</div>
         <div id="progress-bar-empty"><div id="progress-bar-full"></div></div>
       </div>
     </div>
@@ -28,12 +28,13 @@
       const loadingOverlay = document.querySelector("#loading-overlay");
       const progressBarFull = document.querySelector("#progress-bar-full");
 
-      const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/Dashmetry.loader.js";
+      // Ensure your folder in GitHub is named 'Build' (with a capital B)
+      const buildUrl = "Build"; 
+      
       const config = {
-        dataUrl: buildUrl + "/Dashmetry.data.br",
-        frameworkUrl: buildUrl + "/Dashmetry.framework.js.br",
-        codeUrl: buildUrl + "/Dashmetry.wasm.br",
+        dataUrl: buildUrl + "/geometry-lite-v25081902.data.unityweb",
+        frameworkUrl: buildUrl + "/geometry-lite-v25081902.framework.js.unityweb",
+        codeUrl: buildUrl + "/geometry-lite-v25081902.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "1Games",
         productName: "Dashmetry",
@@ -41,7 +42,8 @@
       };
 
       const script = document.createElement("script");
-      script.src = loaderUrl;
+      script.src = buildUrl + "/geometry-lite-v25081902.loader.js"; 
+      
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
@@ -49,6 +51,7 @@
           loadingOverlay.style.display = "none";
           canvas.focus();
         }).catch((message) => {
+          console.error(message);
           alert("Error: " + message);
         });
       };
